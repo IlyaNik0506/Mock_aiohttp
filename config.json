@@ -1,0 +1,1 @@
+[{"method": "POST", "name": "mig001 mock", "path": "/issuing/pin/counter", "responseBody": "{\"pan\":123, \"dad\": 123}", "duration": 10, "disable_endpoint": false}, {"method": "POST", "name": "mig002 mock", "path": "/issuing/chto/to/eche", "responseBody": "{\"pan\":321, \"dad\": \"ddf\"}", "duration": 10, "disable_endpoint": false}]
