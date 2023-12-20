@@ -13,6 +13,6 @@ curl -X POST -H "Content-Type: application/json" -d '{"path": "/issuing/pin/coun
 docker build -t aiohttp .   - сборка контейнера 
 docker images - все образы 
 docker tag 3b00077e80f0 aiohttp:latest - переименование образа с тегом
- docker run -it -p 8000:8000 aiohttp  - запуск
+docker run -it -p 8000:8000 aiohttp  - запуск
 
 Важное замечание  не стоит перезаписывать файл в момент перезаписи файла )))))) Т.к может возникнуть	 проблема т.к все функции выполняются асинхронно (будет гонка функций)
