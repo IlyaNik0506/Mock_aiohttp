@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/server.css">
+    <title>MOCK MANAGEMENT</title>
+    <script>
+        function sendRequest(url, data, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200)
+                    callback(xhr.responseText);
+            }
+            xhr.send(JSON.stringify(data));
+        }
+
+        function updateDuration(event) {
+            event.preventDefault();
+            var path = document.getElementById('path').value;
+            var duration = document.getElementById('duration').value;
+            sendRequest('/update_duration', { path: path, duration: duration }, function(response) {
+                console.log(response);
+            });
+        }
+
+        function disableEndpoint(event) {
+            event.preventDefault();
+            var pathOff = document.getElementById('pathOff').value;
+            var durationOff = document.getElementById('durationOff').value;
+            sendRequest('/off_endpoint', { path: pathOff, duration_disable_endpoint: durationOff }, function(response) {
+                console.log(response);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>MOCK MANAGEMENT</h1>
+
+    <div id="terminal"></div>
+
+    <h2>Update Duration</h2>
+    <form id="updateDurationForm" onsubmit="updateDuration(event)">
+        <label for="path">PATH(/Endpoint):</label><br>
+        <input type="text" id="path" name="path"><br>
+        <label for="duration">Duration (ms):</label><br>
+        <input type="number" id="duration" name="duration"><br>
+        <input type="submit" value="SEND">
+    </form>
+
+    <h2>Disable endpoint</h2>
+    <form id="disableEndpointForm" onsubmit="disableEndpoint(event)">
+        <label for="pathOff">PATH(/Endpoint):</label><br>
+        <input type="text" id="pathOff" name="pathOff"><br>
+        <label for="durationOff">Duration (sec.):</label><br>
+        <input type="number" id="durationOff" name="durationOff"><br>
+        <input type="submit" value="Disable">
+    </form>
+</body>
+</html>

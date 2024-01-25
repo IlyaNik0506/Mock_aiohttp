@@ -6,6 +6,10 @@ from aiohttp import web
 disable_endpoint = False
 
 
+async def index(request):
+    return web.FileResponse('index.html')
+
+
 # Отдельнгая функция т.к маршрут принимает только 3 метода(тип запроса, путь,что должен вернуть)
 async def handle_request(request):
     with open('config.json', 'r') as f:
@@ -29,7 +33,7 @@ async def update_duration(request):
             config['duration'] = data['duration']
     with open('config.json', 'w') as f:
         json.dump(configs, f)
-    return web.Response(status=200)
+    return web.Response(text='true', status=200)
 
 
 # Функция отключения эндпоинта
@@ -43,7 +47,7 @@ async def off_endpoint(request):
     with open('config.json', 'w') as f:
         json.dump(configs, f)
     web.Response(text='Эндпоинт отключен', status=200)
-    await asyncio.sleep(data['duration_disable_endpoint'])  # ожидание указанного времени в секундах
+    await asyncio.sleep(int(data['duration_disable_endpoint']))  # ожидание указанного времени в секундах
     with open('config.json', 'r') as f:
         configs = json.load(f)
     for config in configs:
@@ -57,6 +61,9 @@ async def off_endpoint(request):
 app = web.Application()
 app.router.add_route('POST', '/update_duration', update_duration)
 app.router.add_route('POST', '/off_endpoint', off_endpoint)
+app.router.add_route('GET', '/', index)
+app.router.add_static('/static', '.')
+
 
 # создание маршрутов исходя из файла конфига
 with open('config.json', 'r') as f:
